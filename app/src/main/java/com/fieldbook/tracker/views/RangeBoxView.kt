@@ -55,6 +55,7 @@ class RangeBoxView : ConstraintLayout {
     private var tvPlot: TextView
     private var rangeLeft: ImageView
     private var rangeRight: ImageView
+    private var dataLoadingProgressBar: ProgressBar
 
     private var plotsProgressBar: ProgressBar
 
@@ -92,6 +93,7 @@ class RangeBoxView : ConstraintLayout {
         this.rangeName = v.findViewById(R.id.rangeName)
         this.plotName = v.findViewById(R.id.plotName)
         this.plotsProgressBar = v.findViewById(R.id.plotsProgressBar)
+        this.dataLoadingProgressBar = v.findViewById(R.id.dataLoadingProgressBar)
 
         this.controller = context as CollectRangeController
 
@@ -125,6 +127,10 @@ class RangeBoxView : ConstraintLayout {
         defStyle,
         defStyleRes
     )
+
+    fun toggleDataLoadingProgressBar(toggle: Boolean) {
+        dataLoadingProgressBar.visibility = if (toggle) VISIBLE else GONE
+    }
 
     fun toggleNavigation(toggle: Boolean) {
         rangeLeft.isEnabled = toggle

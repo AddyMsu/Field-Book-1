@@ -75,6 +75,7 @@ import com.fieldbook.tracker.traits.formats.TraitFormat;
 import com.fieldbook.tracker.traits.formats.coders.StringCoder;
 import com.fieldbook.tracker.traits.formats.Scannable;
 import com.fieldbook.tracker.traits.formats.presenters.ValuePresenter;
+import com.fieldbook.tracker.utilities.AsyncJob;
 import com.fieldbook.tracker.utilities.CameraXFacade;
 import com.fieldbook.tracker.utilities.BluetoothHelper;
 import com.fieldbook.tracker.utilities.CategoryJsonUtil;
@@ -135,6 +136,10 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
 
 /**
  * All main screen logic resides here
@@ -1277,7 +1282,22 @@ public class CollectActivity extends ThemedActivity
     }
 
     public void refreshRangeBoxCursor() {
-        rangeBox.refreshCursor();
+
+        rangeBox.toggleDataLoadingProgressBar(true);
+
+        AsyncJob.Companion.async(
+        continuation -> {
+            rangeBox.refreshCursor();
+            return null;
+        },
+        continuation -> {
+            rangeBox.toggleDataLoadingProgressBar(false);
+            return null;
+        },
+        continuation -> {
+            rangeBox.toggleDataLoadingProgressBar(false);
+            return null;
+        });
     }
 
     public void insertRep(String value, String rep) {
