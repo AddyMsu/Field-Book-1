@@ -1,4 +1,4 @@
-* [Home](/)
+* [Home](home.md)
 * Structure
   * [Storage](storage.md)
   * [Fields](fields.md)
